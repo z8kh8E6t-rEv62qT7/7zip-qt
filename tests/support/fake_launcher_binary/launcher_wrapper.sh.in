@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "@_z7_fake_tracker_program@" "$@"

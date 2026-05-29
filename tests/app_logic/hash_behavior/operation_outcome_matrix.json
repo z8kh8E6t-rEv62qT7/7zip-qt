@@ -1,0 +1,520 @@
+{
+  "version": "2026-04-16",
+  "description": "Operation outcome coverage map for single-backend session API.",
+  "operations": [
+    {
+      "operation": "add",
+      "request_type": "AddRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "addRequestDirectoryTargetsArchiveVirtualDirectory",
+            "addRequestInputItemsTargetExplicitArchiveEntriesAndMergeOverlaps",
+            "addRequestUpdateModeMatrixMatchesOriginalActionSets",
+            "addRequestPathModeMatrixMatchesOriginalCensorModes",
+            "addRequestZipPasswordWithDisabledEncryptedHeadersSucceeds",
+            "addRequest7zEncryptedHeadersRequirePasswordOnOpen",
+            "nestedUpdateWritebackReplacesEmbeddedArchiveContent",
+            "addRequestUpdateModeAppliesOriginalActionSetSemantics",
+            "addRequestRawUpdateSwitchOverridesModeAndSkipsOnlyDiskItems",
+            "addRequestRawUSwitchCreatesAdditionalArchiveTarget",
+            "addRequestRawUSwitchCreatesMultipleAdditionalArchiveTargets",
+            "addRequestRawUSwitchesIgnoreMainAndCreateAdditionalArchive",
+            "addRequestRawUSwitchIgnoreMainArchiveLeavesContentUnchanged"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "addRequestInvalidRawUpdateSwitchReturnsInvalidArguments",
+            "addRequestInputItemsRejectInvalidContractsAndMissingSources"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "partial": {
+          "cases": [
+            "addRequestReturnsPartialSuccessWhenInputMissing"
+          ]
+        }
+      }
+    },
+    {
+      "operation": "extract",
+      "request_type": "ExtractRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "extractArchiveUsesOriginalApiPathAndStructuredProgress",
+            "extractAskOverwriteCallbackDecisionsAreApplied",
+            "extractAskOverwriteStickyNoToAllSkipsRemainingConflicts",
+            "extractAskOverwriteWithoutCallbackReportsMissingInteraction",
+            "extractMaterializedEntriesSingleFile",
+            "extractMaterializedEntriesPrimaryPath",
+            "extractMaterializedEntriesRenameCollision",
+            "extractMaterializedEntriesSkipNotRecorded",
+            "extractMaterializedEntriesMultiArchiveMerged",
+            "extractMaterializedEntriesOverwriteFlag",
+            "extractMaterializedEntriesOverwriteLeavesNoTempResidue",
+            "extractMaterializedEntriesPathRemapsDirectWrite",
+            "extractMaterializedEntriesRenameExistingSuccessKeepsReadableBackup",
+            "extractBudgetExactLimitNoTrigger",
+            "extractBudgetNulloptNoBehaviourChange",
+            "extractBudgetMaxFilesTruncate",
+            "extractOutputTemplateNamesFollowArchiveSuffixRules",
+            "extractOutputTailNameNormalizesSeparatorsAndTrailingSlashes"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "extractTestCopyMoveDeleteRequestsCoverExtendedModels",
+            "extractBudgetMaxFilesRollback",
+            "extractBudgetMaxFilesKeepPartial",
+            "extractBudgetRollbackRestoresOverwrittenFile",
+            "extractMaterializedEntriesRollbackRestoresOverwrittenFile",
+            "extractMaterializedEntriesWrongPasswordNewFileLeavesNoResidue",
+            "extractMaterializedEntriesWrongPasswordExistingFileRestoresOriginal",
+            "extractMaterializedEntriesRenameExistingFailureRestoresOriginal"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Extract partial-success requires brittle fault injection and is tracked separately."
+        }
+      }
+    },
+    {
+      "operation": "test",
+      "request_type": "TestRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "testArchiveUsesOriginalApiPathAndStructuredProgress",
+            "testArchivePauseResumeStateMachine",
+            "releasingRunningSessionDoesNotSelfJoinWorkerThread"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "extractTestCopyMoveDeleteRequestsCoverExtendedModels",
+            "testArchivePathsContinueAfterInvalidInputLikeOriginal",
+            "testArchivePathsExpandDirectoriesLikeOriginal"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "testArchiveCancelStateMachine"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Test partial-success scenarios are not yet deterministic without synthetic corruption fixtures."
+        }
+      }
+    },
+    {
+      "operation": "benchmark",
+      "request_type": "BenchmarkRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "benchmarkRequestReturnsSummaryLine",
+            "benchmarkTypedSnapshotsExposeStructuredSizes",
+            "backendCapabilitiesExposeSplitCombineAndTypedBenchmark"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "benchmarkRequestRejectsInvalidDictionarySize"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "benchmarkMemoryLimitRequiresTypedHandler",
+            "benchmarkMemoryLimitExplicitHandlerTakesPriorityOverChoice",
+            "benchmarkMemoryLimitUpdatedLimitBelowEstimateCancelsOperation"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Benchmark does not expose a typed partial-success contract in current backend."
+        }
+      }
+    },
+    {
+      "operation": "split",
+      "request_type": "SplitRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "splitAndCombineRoundTripMatchesSourceBytes"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "splitAndCombineReportExpectedErrors"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "splitAndCombineCancelStateMachine"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Split currently reports terminal success/failure, not partial."
+        }
+      }
+    },
+    {
+      "operation": "combine",
+      "request_type": "CombineRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "splitAndCombineRoundTripMatchesSourceBytes"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "splitAndCombineReportExpectedErrors"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "splitAndCombineCancelStateMachine"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Combine currently reports terminal success/failure, not partial."
+        }
+      }
+    },
+    {
+      "operation": "hash",
+      "request_type": "HashRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "singleMethodAndAllMethodsProduceDigestSummary",
+            "directoryRecursionFlagControlsSummaryCounts",
+            "hashRequestReturnsPartialSuccessWhenInputMissing",
+            "progressLifecycleEventsAreTypedAndOrdered"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "hashRequestRejectsUnknownMethod",
+            "errorDomainMappingIgnoresDiagnosticKeywords"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "hashPauseResumeCancelStateMachine"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Hash filesystem path mode reports success with error counters instead of partial domain."
+        }
+      }
+    },
+    {
+      "operation": "delete",
+      "request_type": "DeleteRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "deleteArchiveUsesOriginalApiPathAndStructuredProgress",
+            "deleteFilesystemPathsCanBypassRecycleBinWhenRequested",
+            "deleteFilesystemPathsMovesItemsToRecycleBin",
+            "nestedDeleteWritebackRemovesEmbeddedArchiveEntry",
+            "nestedDeleteWritebackSupportsEmbeddedArchivePathsWithDirectories"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Delete partial-success injection is not stable in cross-platform CI."
+        }
+      }
+    },
+    {
+      "operation": "open_archive",
+      "request_type": "OpenArchiveRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "openListPropertiesNavigateRequestsCoverSuccessAndFailure",
+            "nestedOpenChoosesExpectedStrategiesForEmbeddedZipArchives",
+            "nestedOpenSupportsSameNameEmbeddedArchiveEntries",
+            "nestedArchiveSessionsSupportParentCloseBeforeChildClose"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "openListPropertiesNavigateRequestsCoverSuccessAndFailure"
+          ]
+        },
+        "cancel": {
+          "waived_reason": "Open archive resolves through list path and currently has no deterministic cancel fixture."
+        },
+        "partial": {
+          "waived_reason": "Open archive reports terminal success/failure only."
+        }
+      }
+    },
+    {
+      "operation": "list",
+      "request_type": "ListRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "listReturnsTypedEntriesFromOriginalApi",
+            "listUsesFileManagerRootViewSemantics",
+            "listSupportsVirtualDirectoryTraversal",
+            "listDetailedPropsIncludeArchivePreviewFields"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "openListPropertiesNavigateRequestsCoverSuccessAndFailure"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "listCancelStateMachineWithHugeDirectoryFilter"
+          ]
+        },
+        "partial": {
+          "waived_reason": "List currently reports terminal success/failure only."
+        }
+      }
+    },
+    {
+      "operation": "archive_properties",
+      "request_type": "ArchivePropertiesRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "archivePropertiesReturnStructuredLines"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "openListPropertiesNavigateRequestsCoverSuccessAndFailure"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "openListPropertiesCancelStateMachine"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Archive properties currently reports terminal success/failure only."
+        }
+      }
+    },
+    {
+      "operation": "navigate",
+      "request_type": "NavigateRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "openListPropertiesNavigateRequestsCoverSuccessAndFailure"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "openListPropertiesNavigateRequestsCoverSuccessAndFailure"
+          ]
+        },
+        "cancel": {
+          "waived_reason": "Navigate is an in-memory resolver and does not expose long-running cancel behavior."
+        },
+        "partial": {
+          "waived_reason": "Navigate reports terminal success/failure only."
+        }
+      }
+    },
+    {
+      "operation": "copy",
+      "request_type": "CopyRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "copyMoveSupportSingleSourceDestinationPathRename",
+            "copyMoveAskOverwriteCallbackDecisionsAreApplied",
+            "copyMoveAskOverwriteStickyAllDecisionsApplyToRemainingConflicts"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Copy partial-success fixture is not deterministic in current CI layout."
+        }
+      }
+    },
+    {
+      "operation": "move",
+      "request_type": "MoveRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "copyMoveSupportSingleSourceDestinationPathRename",
+            "copyMoveAskOverwriteCallbackDecisionsAreApplied",
+            "copyMoveAskOverwriteStickyAllDecisionsApplyToRemainingConflicts"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "cancel": {
+          "cases": [
+            "copyMoveDeleteInvalidRequestsAndCancelPathsMapCorrectDomains"
+          ]
+        },
+        "partial": {
+          "waived_reason": "Move partial-success fixture is not deterministic in current CI layout."
+        }
+      }
+    },
+    {
+      "operation": "rename",
+      "request_type": "RenameRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "progressLifecycleEventsAreTypedAndOrdered"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "createAndRenameRequestsReportInvalidArguments",
+            "createFileRequestDoesNotOverwriteExistingFile"
+          ]
+        },
+        "cancel": {
+          "waived_reason": "Rename is atomic and typically completes before cancel can be asserted."
+        },
+        "partial": {
+          "waived_reason": "Rename reports terminal success/failure only."
+        }
+      }
+    },
+    {
+      "operation": "create",
+      "request_type": "CreateRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "progressLifecycleEventsAreTypedAndOrdered"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "createAndRenameRequestsReportInvalidArguments"
+          ]
+        },
+        "cancel": {
+          "waived_reason": "Create is atomic and typically completes before cancel can be asserted."
+        },
+        "partial": {
+          "waived_reason": "Create reports terminal success/failure only."
+        }
+      }
+    },
+    {
+      "operation": "comment",
+      "request_type": "ArchiveCommentRequest / FilesystemCommentRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "commentRequestsCoverArchiveAndFilesystemModels"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "commentRequestsCoverArchiveAndFilesystemModels",
+            "atomicReplaceHelperRestoresOriginalAndPreservesTempOnPromoteFailure",
+            "atomicReplaceHelperFailsWhenBackupPathProbeFails"
+          ]
+        },
+        "cancel": {
+          "waived_reason": "Comment updates are short metadata writes; deterministic cancellation would require fault injection outside the current production API."
+        },
+        "partial": {
+          "waived_reason": "Comment requests report terminal success or failure only."
+        }
+      }
+    },
+    {
+      "operation": "get_entry_info",
+      "request_type": "GetEntryInfoRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "getEntryInfoDirectOpenSingleFile",
+            "getEntryInfoDirectoryReturnsSubtreeStats",
+            "getEntryInfoNotFoundReturnsFalse",
+            "getEntryInfoRootPathIsDirectory",
+            "getEntryInfoSessionReuseNoReopen"
+          ]
+        },
+        "failure": {
+          "waived_reason": "GetEntryInfo failure requires an invalid session token or missing archive; covered by validate_request path not needing a dedicated test."
+        },
+        "cancel": {
+          "waived_reason": "GetEntryInfo is a lightweight synchronous query; cancel path not exercised separately."
+        },
+        "partial": {
+          "waived_reason": "GetEntryInfo reports success or failure only."
+        }
+      }
+    },
+    {
+      "operation": "list_streaming",
+      "request_type": "ListRequest",
+      "status_coverage": {
+        "success": {
+          "cases": [
+            "listStreamingModeOffPreservesOldBehaviour",
+            "listStreamingModeBatchesDeliveredAndEntriesEmpty",
+            "listStreamingModeSessionTokenReuse"
+          ]
+        },
+        "failure": {
+          "cases": [
+            "listStreamingModeDelegateEarlyStopCancels"
+          ]
+        },
+        "cancel": {
+          "waived_reason": "Cancel-via-delegate-returning-false is covered by listStreamingModeDelegateEarlyStopCancels; session-level cancel is shared with non-streaming list path."
+        },
+        "partial": {
+          "waived_reason": "List streaming does not produce partial success; either all requested entries are delivered or the operation is canceled."
+        }
+      }
+    }
+  ]
+}
